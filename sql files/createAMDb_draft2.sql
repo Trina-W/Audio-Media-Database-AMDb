@@ -1,0 +1,364 @@
+CREATE DATABASE AMDb;
+
+CREATE USER 'user'@'%' identified by 'password';
+
+GRANT ALL ON AMDb.* to 'user'@'%';
+
+USE AMDb;
+
+/* Music Tables */
+
+CREATE TABLE Record_Label(
+                             Label_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                             Label_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Music_Artist(
+                             Artist_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                             Artist_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Music_Release(
+                              Release_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                              Release_Title VARCHAR(255) NOT NULL
+);
+CREATE TABLE Song(
+                     Song_ID INTEGER PRIMARY KEY,
+                     Song_Title VARCHAR(255) NOT NULL,
+                     Genre VARCHAR(255) NOT NULL,
+                     Tempo INTEGER NOT NULL,
+                     Length INTEGER NOT NULL,
+                     Explicit BOOLEAN NOT NULL,
+                     Music_Release_ID INTEGER NOT NULL,
+                     FOREIGN KEY (Music_Release_ID) REFERENCES Music_Release(Release_ID) ON
+                         DELETE CASCADE
+);
+CREATE TABLE Releases(
+                         Label_ID INTEGER NOT NULL,
+                         Release_ID INTEGER NOT NULL,
+                         PRIMARY KEY (Label_ID, Release_ID),
+                         FOREIGN KEY (Label_ID) REFERENCES Record_Label(Label_ID) ON DELETE CASCADE,
+                         FOREIGN KEY (Release_ID) REFERENCES Music_Release(Release_ID) ON DELETE
+                             CASCADE
+);
+CREATE TABLE Signs(
+                      Label_ID INTEGER NOT NULL,
+                      Artist_ID INTEGER NOT NULL,
+                      PRIMARY KEY (Label_ID, Artist_ID),
+                      FOREIGN KEY (Label_ID) REFERENCES Record_Label(Label_ID) ON DELETE CASCADE,
+                      FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+                          CASCADE
+);
+CREATE TABLE Creates(
+                        Artist_ID INTEGER NOT NULL,
+                        Release_ID INTEGER NOT NULL,
+                        PRIMARY KEY (Artist_ID, Release_ID),
+                        FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+                            CASCADE,
+                        FOREIGN KEY (Release_ID) REFERENCES Music_Release(Release_ID) ON DELETE
+                            CASCADE
+);
+CREATE TABLE Records(
+                        Artist_ID INTEGER NOT NULL,
+                        Song_ID INTEGER NOT NULL,
+                        PRIMARY KEY (Artist_ID, Song_ID),
+                        FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+                            CASCADE,
+                        FOREIGN KEY (Song_ID) REFERENCES Song(Song_ID) ON DELETE CASCADE
+);
+
+/* Podcast Tables */
+
+CREATE TABLE Podcast_Host(
+                             Host_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                             Host_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Podcast(
+                        Podcast_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                        Podcast_Title VARCHAR(255) NOT NULL,
+                        Url VARCHAR(255) NOT NULL,
+                        Explicit BOOLEAN NOT NULL,
+                        Description VARCHAR(255) NOT NULL
+);
+CREATE TABLE Podcast_Episode(
+                                Podcast_Episode_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                Podcast_Episode_Title VARCHAR(255) NOT NULL,
+                                Podcast_ID INTEGER NOT NULL,
+                                FOREIGN KEY (Podcast_ID) REFERENCES Podcast(Podcast_ID) ON DELETE CASCADE
+);
+CREATE TABLE Hosts(
+                      Host_ID INTEGER NOT NULL,
+                      Podcast_ID INTEGER NOT NULL,
+                      PRIMARY KEY (Host_ID, Podcast_ID),
+                      FOREIGN KEY (Host_ID) REFERENCES Podcast_Host(Host_ID) ON DELETE CASCADE,
+                      FOREIGN KEY (Podcast_ID) REFERENCES Podcast(Podcast_ID) ON DELETE CASCADE
+);
+
+/* Audiobook Tables*/
+
+CREATE TABLE Publisher(
+                          Publisher_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                          Publisher_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Audio_Book(
+                           Book_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                           Book_Title VARCHAR(255) NOT NULL,
+                           Length INTEGER NOT NULL,
+                           Release_Date DATE NOT NULL
+);
+CREATE TABLE Author(
+                       Author_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                       Author_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Narrator(
+                         Narrator_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+                         Narrator_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Publishes(
+                          Publisher_ID INTEGER NOT NULL,
+                          Book_ID INTEGER NOT NULL,
+                          PRIMARY KEY (Publisher_ID, Book_ID),
+                          FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON DELETE
+                              CASCADE,
+                          FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+CREATE TABLE Writes(
+                       Author_ID INTEGER NOT NULL,
+                       Book_ID INTEGER NOT NULL,
+                       PRIMARY KEY (Author_ID, Book_ID),
+                       FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID) ON DELETE CASCADE,
+                       FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+CREATE TABLE Narrates(
+                         Narrator_ID INTEGER NOT NULL,
+                         Book_ID INTEGER NOT NULL,
+                         PRIMARY KEY (Narrator_ID, Book_ID),
+                         FOREIGN KEY (Narrator_ID) REFERENCES Narrator(Narrator_ID) ON DELETE
+                             CASCADE,
+                         FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+
+/* Populating Database */
+
+/* Song related */
+
+INSERT INTO Record_Label (Label_Name)
+VALUES ("MyRecordLabel1"), ("MyRecordLabel2"), ("MyRecordLabel3");
+
+INSERT INTO Music_Release (Release_Title)
+VALUES ("MyMusicRelease1"), ("MyMusicRelease2"), ("MyMusicRelease3"), ("MyMusicRelease4");
+
+INSERT INTO Music_Artist(Artist_Name)
+VALUES ("MyArtist1"), ("MyArtist2");
+
+INSERT INTO Song
+VALUES ("13", "MySong1", "Jazz", 100, 3, TRUE, 1),
+       ("24", "MySong12", "Jazz", 100, 3, TRUE, 1);
+
+INSERT INTO Releases(Label_ID, Release_ID)
+VALUES (1, 1), (2, 3), (3, 2), (2,4);
+
+INSERT INTO Signs(Label_ID, Artist_ID)
+VALUES (1, 1), (2, 2);
+
+INSERT INTO Creates(Artist_ID, Release_ID)
+VALUES (1, 1), (2, 2);
+
+INSERT INTO Records(Artist_ID, Song_ID)
+VALUES (1, 13), (2, 24);
+
+/*
+CREATE TABLE Signs(
+Label_ID INTEGER NOT NULL,
+Artist_ID INTEGER NOT NULL,
+PRIMARY KEY (Label_ID, Artist_ID),
+FOREIGN KEY (Label_ID) REFERENCES Record_Label(Label_ID) ON DELETE CASCADE,
+FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+CASCADE
+);
+CREATE TABLE Creates(
+Artist_ID INTEGER NOT NULL,
+Release_ID INTEGER NOT NULL,
+PRIMARY KEY (Artist_ID, Release_ID),
+FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+CASCADE,
+FOREIGN KEY (Release_ID) REFERENCES Music_Release(Release_ID) ON DELETE
+CASCADE
+);
+CREATE TABLE Records(
+Artist_ID INTEGER NOT NULL,
+Song_ID VARCHAR(255) NOT NULL,
+PRIMARY KEY (Artist_ID, Song_ID),
+FOREIGN KEY (Artist_ID) REFERENCES Music_Artist(Artist_ID) ON DELETE
+CASCADE,
+FOREIGN KEY (Song_ID) REFERENCES Song(Song_ID) ON DELETE CASCADE
+);
+
+*/
+
+/* Podcast Releated */
+
+INSERT INTO Podcast (Podcast_Title, Url, Explicit, Description)
+VALUES ("MyPodcast1", "www.mypodcast.com", FALSE, "mydesc1"),
+       ("MyPodcast2", "www.mypodcast2.com", TRUE, "mydesc2");
+
+INSERT INTO Podcast_Host (Host_Name)
+VALUES ("Host1"), ("Host2");
+
+INSERT INTO Podcast_Episode (Podcast_Episode_Title, Podcast_ID)
+VALUES ("Episode1", 1), ("Episode2",1),("Episode1",2);
+
+INSERT INTO Hosts(Host_ID, Podcast_ID)
+VALUES (1, 1), (2, 2);
+
+/*
+CREATE TABLE Podcast_Host(
+Host_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Host_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Podcast(
+Podcast_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Podcast_Title VARCHAR(255) NOT NULL,
+Url VARCHAR(255) NOT NULL,
+Explicit BOOLEAN NOT NULL,
+Description VARCHAR(255) NOT NULL
+);
+CREATE TABLE Podcast_Episode(
+Podcast_Episode_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Podcast_Episode_Title VARCHAR(255) NOT NULL,
+Podcast_ID INTEGER NOT NULL,
+FOREIGN KEY (Podcast_ID) REFERENCES Podcast(Podcast_ID) ON DELETE CASCADE
+);
+CREATE TABLE Hosts(
+Host_ID INTEGER NOT NULL,
+Podcast_ID INTEGER NOT NULL,
+PRIMARY KEY (Host_ID, Podcast_ID),
+FOREIGN KEY (Host_ID) REFERENCES Podcast_Host(Host_ID) ON DELETE CASCADE,
+FOREIGN KEY (Podcast_ID) REFERENCES Podcast(Podcast_ID) ON DELETE CASCADE
+);
+*/
+
+/* Audiobook related */
+
+INSERT INTO Audio_Book
+VALUES(1, "AudioBook1", 255, '2000-01-01'), (2, "AudioBook2", 123, '1999-12-25');
+
+INSERT INTO Publisher(Publisher_Name)
+VALUES("Publisher1"), ("Publisher2");
+
+INSERT INTO Author(Author_Name)
+VALUES ("Author1"), ("Author2");
+
+INSERT INTO Narrator (Narrator_Name)
+VALUES ("Narrator1"), ("Narrator2");
+
+INSERT INTO Publishes(Publisher_ID, Book_ID)
+VALUES(1, 1), (2, 2);
+
+INSERT INTO Writes(Author_ID, Book_ID)
+VALUES (1, 1), (2, 2);
+
+INSERT INTO Narrates(Narrator_ID, Book_ID)
+VALUES (1, 1), (2, 2);
+
+/*
+CREATE TABLE Publisher(
+Publisher_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Publisher_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Audio_Book(
+Book_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Book_Title VARCHAR(255) NOT NULL,
+Length INTEGER NOT NULL,
+Release_Date DATE NOT NULL
+);
+CREATE TABLE Author(
+Author_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Author_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Narrator(
+Narrator_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Narrator_Name VARCHAR(255) NOT NULL
+);
+CREATE TABLE Publishes(
+Publisher_ID INTEGER NOT NULL,
+Book_ID INTEGER NOT NULL,
+PRIMARY KEY (Publisher_ID, Book_ID),
+FOREIGN KEY (Publisher_ID) REFERENCES Publisher(Publisher_ID) ON DELETE
+CASCADE,
+FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+CREATE TABLE Writes(
+Author_ID INTEGER NOT NULL,
+Book_ID INTEGER NOT NULL,
+PRIMARY KEY (Author_ID, Book_ID),
+FOREIGN KEY (Author_ID) REFERENCES Author(Author_ID) ON DELETE CASCADE,
+FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+CREATE TABLE Narrates(
+Narrator_ID INTEGER NOT NULL,
+Book_ID INTEGER NOT NULL,
+PRIMARY KEY (Narrator_ID, Book_ID),
+FOREIGN KEY (Narrator_ID) REFERENCES Narrator(Narrator_ID) ON DELETE
+CASCADE,
+FOREIGN KEY (Book_ID) REFERENCES Audio_Book(Book_ID) ON DELETE CASCADE
+);
+*/
+
+/*
+CREATE TABLE Podcast(
+Podcast_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Podcast_Title VARCHAR(255) NOT NULL,
+Url VARCHAR(255) NOT NULL,
+Explicit BOOLEAN NOT NULL,
+Description VARCHAR(255) NOT NULL
+);
+*/
+
+/*
+CREATE TABLE Audio_Book(
+Book_ID INTEGER PRIMARY KEY AUTO_INCREMENT,
+Title VARCHAR(255) NOT NULL,
+Length INTEGER NOT NULL,
+Release_Date DATE NOT NULL
+);
+*/
+
+/*
+CREATE TABLE Song(
+Song_ID VARCHAR(255) PRIMARY KEY,
+Song_Title VARCHAR(255) NOT NULL,
+Genre VARCHAR(255) NOT NULL,
+Tempo INTEGER NOT NULL,
+Length INTEGER NOT NULL,
+Explicit BOOLEAN NOT NULL,
+Music_Release_ID INTEGER NOT NULL,
+FOREIGN KEY (Music_Release_ID) REFERENCES Music_Release(Release_ID) ON
+DELETE CASCADE
+);
+*/
+
+/*
+SELECT *
+FROM Record_Label
+WHERE Label_Name LIKE '%2%';
+*/
+/*
+SELECT Title
+FROM Music_Release MR
+INNER JOIN Releases R
+	ON MR.Release_ID = R.Release_ID
+INNER JOIN Record_Label RL
+	ON RL.Label_ID = R.Label_ID
+WHERE RL.Label_ID = 2;
+*/
+/*
+SELECT Title
+FROM Music_Release MR
+INNER JOIN Releases R
+	ON MR.Release_ID = R.Release_ID
+INNER JOIN Record_Label RL
+	ON RL.Label_ID = R.Label_ID
+WHERE RL.Label_Name LIKE "%2%";
+
+*/
+
+SELECT * FROM song;
