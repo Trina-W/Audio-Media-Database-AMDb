@@ -4,10 +4,7 @@ import java.util.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import modelAttributes.*;
 
@@ -15,106 +12,107 @@ import modelAttributes.*;
 @RequestMapping("/amdb")
 public class AMDbController {
 
-	@GetMapping
-	public String get(Model model) {
+    @GetMapping
+    public String get(Model model) {
 
-	// Add object to be bound by user provided details
-		//model.addAttribute("input", new InputForm());
-		model.addAttribute("song", new Song());
-		model.addAttribute("recordLabel", new RecordLabel());
-		model.addAttribute("musicArtist", new MusicArtist());
-		model.addAttribute("musicRelease", new MusicRelease());
-		model.addAttribute("podcastHost", new PodcastHost());
-		model.addAttribute("podcast", new Podcast());
-		model.addAttribute("podcastEpisode", new PodcastEpisode());
-		model.addAttribute("publisher", new Publisher());
-		model.addAttribute("audioBook", new AudioBook());
-		model.addAttribute("author", new Author());
-		model.addAttribute("narrator", new Narrator());
+        // Add object to be bound by user provided details
+        //model.addAttribute("input", new InputForm());
+        model.addAttribute("song", new Song());
+        model.addAttribute("recordLabel", new RecordLabel());
+        model.addAttribute("musicArtist", new MusicArtist());
+        model.addAttribute("musicRelease", new MusicRelease());
+        model.addAttribute("podcastHost", new PodcastHost());
+        model.addAttribute("podcast", new Podcast());
+        model.addAttribute("podcastEpisode", new PodcastEpisode());
+        model.addAttribute("publisher", new Publisher());
+        model.addAttribute("audioBook", new AudioBook());
+        model.addAttribute("author", new Author());
+        model.addAttribute("narrator", new Narrator());
 
-		return "home";
-	}
+        return "home";
+    }
 
-	@PostMapping
-	public String post(@ModelAttribute("song") Song song, @ModelAttribute("recordLabel") RecordLabel recordLabel,
-	@ModelAttribute("musicArtist") MusicArtist musicArtist, @ModelAttribute("musicRelease") MusicRelease musicRelease,
-	@ModelAttribute("podcastHost") PodcastHost podcastHost, @ModelAttribute("podcast") Podcast podcast,
-	@ModelAttribute("podcastEpisode") PodcastEpisode podcastEpisode, @ModelAttribute("publisher") Publisher publisher,
-	@ModelAttribute("audioBook") AudioBook audioBook, @ModelAttribute("author") Author author,
-	@ModelAttribute("narrator") Narrator narrator, Model model) {
+    @PostMapping
+    public String post(@RequestParam String selectedCategory, @ModelAttribute("song") Song song, @ModelAttribute("recordLabel") RecordLabel recordLabel,
+                       @ModelAttribute("musicArtist") MusicArtist musicArtist, @ModelAttribute("musicRelease") MusicRelease musicRelease,
+                       @ModelAttribute("podcastHost") PodcastHost podcastHost, @ModelAttribute("podcast") Podcast podcast,
+                       @ModelAttribute("podcastEpisode") PodcastEpisode podcastEpisode, @ModelAttribute("publisher") Publisher publisher,
+                       @ModelAttribute("audioBook") AudioBook audioBook, @ModelAttribute("author") Author author,
+                       @ModelAttribute("narrator") Narrator narrator, Model model) {
+        model.addAttribute("selectedCategory", selectedCategory);
 
-		System.out.println("\n*******************************************************************************************************************");
+        System.out.println("\n*******************************************************************************************************************");
 
-		TranslatorService translator = new TranslatorService();
+        TranslatorService translator = new TranslatorService();
 
-		//testing output of allResults
-		ArrayList<LinkedHashMap<String,String>> allSongResults = translator.retrieveSong(song);
-		for(LinkedHashMap<String,String> hm : allSongResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allSongResults", allSongResults);
+        //testing output of allResults
+        ArrayList<LinkedHashMap<String, String>> allSongResults = translator.retrieveSong(song);
+        for (LinkedHashMap<String, String> hm : allSongResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allSongResults", allSongResults);
 
-		ArrayList<LinkedHashMap<String,String>> allRLResults = translator.retrieveRecordLabel(recordLabel);
-		for(LinkedHashMap<String,String> hm : allRLResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allRLResults", allRLResults);
+        ArrayList<LinkedHashMap<String, String>> allRLResults = translator.retrieveRecordLabel(recordLabel);
+        for (LinkedHashMap<String, String> hm : allRLResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allRLResults", allRLResults);
 
-		ArrayList<LinkedHashMap<String,String>> allMAResults = translator.retrieveMusicArtist(musicArtist);
-		for(LinkedHashMap<String,String> hm : allMAResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allMAResults", allMAResults);
+        ArrayList<LinkedHashMap<String, String>> allMAResults = translator.retrieveMusicArtist(musicArtist);
+        for (LinkedHashMap<String, String> hm : allMAResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allMAResults", allMAResults);
 
-		ArrayList<LinkedHashMap<String,String>> allMRResults = translator.retrieveMusicRelease(musicRelease);
-		for(LinkedHashMap<String,String> hm : allMRResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allMRResults", allMRResults);
+        ArrayList<LinkedHashMap<String, String>> allMRResults = translator.retrieveMusicRelease(musicRelease);
+        for (LinkedHashMap<String, String> hm : allMRResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allMRResults", allMRResults);
 
-		ArrayList<LinkedHashMap<String,String>> allPHResults = translator.retrievePodcastHost(podcastHost);
-		for(LinkedHashMap<String,String> hm : allPHResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allPHResults", allPHResults);
+        ArrayList<LinkedHashMap<String, String>> allPHResults = translator.retrievePodcastHost(podcastHost);
+        for (LinkedHashMap<String, String> hm : allPHResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allPHResults", allPHResults);
 
-		ArrayList<LinkedHashMap<String,String>> allPCResults = translator.retrievePodcast(podcast);
-		for(LinkedHashMap<String,String> hm : allPCResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allPCResults", allPCResults);
+        ArrayList<LinkedHashMap<String, String>> allPCResults = translator.retrievePodcast(podcast);
+        for (LinkedHashMap<String, String> hm : allPCResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allPCResults", allPCResults);
 
-		ArrayList<LinkedHashMap<String,String>> allPEResults = translator.retrievePodcastEpisode(podcastEpisode);
-		for(LinkedHashMap<String,String> hm : allPEResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allPEResults", allPEResults);
+        ArrayList<LinkedHashMap<String, String>> allPEResults = translator.retrievePodcastEpisode(podcastEpisode);
+        for (LinkedHashMap<String, String> hm : allPEResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allPEResults", allPEResults);
 
-		ArrayList<LinkedHashMap<String,String>> allPResults = translator.retrievePublisher(publisher);
-		for(LinkedHashMap<String,String> hm : allPResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allPResults", allPResults);
+        ArrayList<LinkedHashMap<String, String>> allPResults = translator.retrievePublisher(publisher);
+        for (LinkedHashMap<String, String> hm : allPResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allPResults", allPResults);
 
-		ArrayList<LinkedHashMap<String,String>> allABResults = translator.retrieveAudioBook(audioBook);
-		for(LinkedHashMap<String,String> hm : allABResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allABResults", allABResults);
+        ArrayList<LinkedHashMap<String, String>> allABResults = translator.retrieveAudioBook(audioBook);
+        for (LinkedHashMap<String, String> hm : allABResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allABResults", allABResults);
 
-		ArrayList<LinkedHashMap<String,String>> allAResults = translator.retrieveAuthor(author);
-		for(LinkedHashMap<String,String> hm : allAResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allAResults", allAResults);
+        ArrayList<LinkedHashMap<String, String>> allAResults = translator.retrieveAuthor(author);
+        for (LinkedHashMap<String, String> hm : allAResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allAResults", allAResults);
 
-		ArrayList<LinkedHashMap<String,String>> allNResults = translator.retrieveNarrator(narrator);
-		for(LinkedHashMap<String,String> hm : allNResults){
-			System.out.println(hm);
-		}
-		model.addAttribute("allNResults", allNResults);
+        ArrayList<LinkedHashMap<String, String>> allNResults = translator.retrieveNarrator(narrator);
+        for (LinkedHashMap<String, String> hm : allNResults) {
+            System.out.println(hm);
+        }
+        model.addAttribute("allNResults", allNResults);
 
-		// Return the same view as GET request
-		return "home"; // Assuming "home-3" is your main page with the form
-	}
+        // Return the same view as GET request
+        return "home"; // Assuming "home-3" is your main page with the form
+    }
 }
