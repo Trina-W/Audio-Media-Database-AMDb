@@ -1,12 +1,17 @@
 package com.AMDb.AMDb.controller;
 
-import com.AMDb.AMDb.model.Song;
-import com.AMDb.AMDb.repository.SongRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RestController
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.AMDb.AMDb.model.Song;
+import com.AMDb.AMDb.repository.SongRepository;
+
+@Controller
 public class SongController {
   private final SongRepository songRepository;
 
@@ -16,12 +21,12 @@ public class SongController {
   }
 
   @GetMapping("/get-all-songs")
-  public List<Song> retrieveSong() {
+  public @ResponseBody List<Song> getAllSongs() {
     return songRepository.findAll();
   }
 
   @GetMapping("/get-song/{identity}")
-  public Song getSingleSong(@PathVariable("identity") Integer id) {
+  public @ResponseBody Song getSingleSong(@PathVariable("identity") Integer id) {
     return songRepository.findById(id).orElse(null);
   }
 }
