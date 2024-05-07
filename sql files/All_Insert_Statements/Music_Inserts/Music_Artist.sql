@@ -1,3 +1,4 @@
+USE AMDb;
 INSERT INTO Music_Artist(Artist_ID,Artist_Name) VALUES
  (1,'Binaural Beats Brain Waves Isochronic Tones Brain Wave Entrainment')
 ,(2,'Ocean Waves For Sleep')
@@ -29856,3 +29857,4 @@ INSERT INTO Music_Artist(Artist_ID,Artist_Name) VALUES
 ,(29855,'Imperial Circus Dead Decadence')
 ,(29856,'Shikao Suga')
 ,(29857,'曾路得')
+,(29858,'LastArtist');
