@@ -152,6 +152,27 @@ public class TranslatorService {
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
 
+					//the database stores the song's length in milliseconds
+					//but we want to display the song's length in Xm Ys Zms format 
+
+					//use parseInt to turn the String containing the int into an actual int
+					int lengthInMilli = Integer.parseInt(result.get("Length"));
+
+					//divide the integer by 60000 to get the length in minutes, rounded down
+					int lengthMinutes = lengthInMilli / 60000;
+
+					//subtract the minutes from the milliseconds
+					int milliMinusMinutes = lengthInMilli - (lengthMinutes * 60000);
+
+					//divide the remaining milliseconds by 1000 to get the leftover seconds, rounded down
+					int leftoverSeconds = milliMinusMinutes / 1000;
+
+					//subtract the seconds from the remaining milliseconds. this is the leftover milliseconds
+					int leftoverMilli = milliMinusMinutes - (leftoverSeconds * 1000);
+
+					//replace the length in milliseconds with the Xm Ys Zms format
+					result.replace("Length", "" + lengthMinutes + "m " + leftoverSeconds + "s " + leftoverMilli + "ms");
+
 					//Has FK Music_Release_ID. need to join with Music_Release table to get the name of the music release
 					//or just query the Music_Release table to get the name of the release based on the FK result
 
