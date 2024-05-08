@@ -79,20 +79,26 @@ public class TranslatorService {
 
 			//check length
 			if(song.getSMinLength() > 0){
+				//user enters the length in minutes, so we need to convert to milliseconds
+				int sMinLengthmilli = song.getSMinLength() * 60000;
+
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
 				}
-				where += "Length >= " + song.getSMinLength();
+				where += "Length >= " + sMinLengthmilli;
 				hasCondition = true;
 			}
 
 			if(song.getSMaxLength() > 0){
+				//use enters the length in minutes, so we need to convert to milliseconds
+				int sMaxLengthmilli = song.getSMaxLength() * 60000;
+
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
 				}
-				where += "Length <= " + song.getSMaxLength();
+				where += "Length <= " + sMaxLengthmilli;
 				hasCondition = true;
 			}
 
@@ -1171,7 +1177,7 @@ public class TranslatorService {
 				//while loop to move through each row
 				while(mvAttrRS.next()){
 					
-					colContent += mvAttrRS.getString(1) + ";";
+					colContent += mvAttrRS.getString(1) + "; ";
 
 				}
 			}
