@@ -42,14 +42,14 @@ public class TranslatorService {
 
 			//check song_title
 			//if getSong_Title is not empty
-			if(song.getSong_Title() != null && song.getSong_Title() != ""){
+			if(song.getSong_Title() != null && song.getSong_Title().trim() != ""){
 				where += "Song_Title LIKE '%" + song.getSong_Title() + "%'";
 				hasCondition = true;
 			}
 			
 			//check genre
 			//if getGenre is not an empty string and not null
-			if (song.getGenre() != null && song.getGenre() != "") {
+			if (song.getGenre() != null && song.getGenre().trim() != "") {
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
@@ -79,20 +79,26 @@ public class TranslatorService {
 
 			//check length
 			if(song.getSMinLength() > 0){
+				//user enters the length in minutes, so we need to convert to milliseconds
+				int sMinLengthmilli = song.getSMinLength() * 60000;
+
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
 				}
-				where += "Length >= " + song.getSMinLength();
+				where += "Length >= " + sMinLengthmilli;
 				hasCondition = true;
 			}
 
 			if(song.getSMaxLength() > 0){
+				//use enters the length in minutes, so we need to convert to milliseconds
+				int sMaxLengthmilli = song.getSMaxLength() * 60000;
+
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
 				}
-				where += "Length <= " + song.getSMaxLength();
+				where += "Length <= " + sMaxLengthmilli;
 				hasCondition = true;
 			}
 
@@ -145,6 +151,27 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
+
+					//the database stores the song's length in milliseconds
+					//but we want to display the song's length in Xm Ys Zms format 
+
+					//use parseInt to turn the String containing the int into an actual int
+					int lengthInMilli = Integer.parseInt(result.get("Length"));
+
+					//divide the integer by 60000 to get the length in minutes, rounded down
+					int lengthMinutes = lengthInMilli / 60000;
+
+					//subtract the minutes from the milliseconds
+					int milliMinusMinutes = lengthInMilli - (lengthMinutes * 60000);
+
+					//divide the remaining milliseconds by 1000 to get the leftover seconds, rounded down
+					int leftoverSeconds = milliMinusMinutes / 1000;
+
+					//subtract the seconds from the remaining milliseconds. this is the leftover milliseconds
+					int leftoverMilli = milliMinusMinutes - (leftoverSeconds * 1000);
+
+					//replace the length in milliseconds with the Xm Ys Zms format
+					result.replace("Length", "" + lengthMinutes + "m " + leftoverSeconds + "s " + leftoverMilli + "ms");
 
 					//Has FK Music_Release_ID. need to join with Music_Release table to get the name of the music release
 					//or just query the Music_Release table to get the name of the release based on the FK result
@@ -215,7 +242,7 @@ public class TranslatorService {
 
 			//check label_name
 			//if label_name is not empty
-			if(recordLabel.getLabel_Name() != null && recordLabel.getLabel_Name() != ""){
+			if(recordLabel.getLabel_Name() != null && recordLabel.getLabel_Name().trim() != ""){
 				where += "Label_Name LIKE '%" + recordLabel.getLabel_Name() + "%'";
 				hasCondition = true;
 			}
@@ -298,7 +325,7 @@ public class TranslatorService {
 
 			//check Artist_Name
 			//if Artist_Name is not empty
-			if(musicArtist.getArtist_Name() != null && musicArtist.getArtist_Name() != ""){
+			if(musicArtist.getArtist_Name() != null && musicArtist.getArtist_Name().trim() != ""){
 				where += "Artist_Name LIKE '%" + musicArtist.getArtist_Name() + "%'";				
 				hasCondition = true;
 			}
@@ -384,7 +411,7 @@ public class TranslatorService {
 
 			//check Title
 			//if Title is not empty
-			if(musicRelease.getRelease_Title() != null && musicRelease.getRelease_Title() != ""){
+			if(musicRelease.getRelease_Title() != null && musicRelease.getRelease_Title().trim() != ""){
 				where += "Release_Title LIKE '%" + musicRelease.getRelease_Title() + "%'";			
 				hasCondition = true;
 			}
@@ -469,7 +496,7 @@ public class TranslatorService {
 
 			//check Host_Name
 			//if Host_Name is not empty
-			if(podcastHost.getHost_Name() != null && podcastHost.getHost_Name() != ""){
+			if(podcastHost.getHost_Name() != null && podcastHost.getHost_Name().trim() != ""){
 				where += "Host_Name LIKE '%" + podcastHost.getHost_Name() + "%'";				
 				hasCondition = true;
 			}
@@ -550,7 +577,7 @@ public class TranslatorService {
 
 			//check podcast_title
 			//if podcast_title is not empty
-			if(podcast.getPodcast_Title() != null && podcast.getPodcast_Title() != ""){
+			if(podcast.getPodcast_Title() != null && podcast.getPodcast_Title().trim() != ""){
 				where += "Podcast_Title LIKE '%" + podcast.getPodcast_Title() + "%'";				
 				hasCondition = true;
 			}
@@ -643,7 +670,7 @@ public class TranslatorService {
 
 			//check podcast_episode_title
 			//if podcast_episode_title is not empty
-			if(podcastEpisode.getPodcast_Episode_Title() != null && podcastEpisode.getPodcast_Episode_Title() != ""){
+			if(podcastEpisode.getPodcast_Episode_Title() != null && podcastEpisode.getPodcast_Episode_Title().trim() != ""){
 				where += "Podcast_Episode_Title LIKE '%" + podcastEpisode.getPodcast_Episode_Title() + "%'";				
 				hasCondition = true;
 			}
@@ -750,7 +777,7 @@ public class TranslatorService {
 
 			//check Publisher_Name
 			//if Publisher_Name is not empty
-			if(publisher.getPublisher_Name() != null && publisher.getPublisher_Name() != ""){
+			if(publisher.getPublisher_Name() != null && publisher.getPublisher_Name().trim() != ""){
 				where += "Publisher_Name LIKE '%" + publisher.getPublisher_Name() + "%'";				
 				hasCondition = true;
 			}
@@ -831,7 +858,7 @@ public class TranslatorService {
 
 			//check Title
 			//if Title is not an empty string and if its not null
-			if(audioBook.getBook_Title() != null &&  audioBook.getBook_Title() != ""){
+			if(audioBook.getBook_Title() != null &&  audioBook.getBook_Title().trim() != ""){
 				where += "Book_Title LIKE '%" + audioBook.getBook_Title() + "%'";		
 				System.out.println("audiobook title: " + audioBook.getBook_Title());	
 				hasCondition = true;
@@ -859,7 +886,7 @@ public class TranslatorService {
 			//check releasedate
 			//if Release_Date is not an empty string and if its not null
 			//checks if the book was released after or equal to the given date (given as 'YYYY-MM-DD')
-			if(audioBook.getRelease_Date() != null &&  audioBook.getRelease_Date() != ""){
+			if(audioBook.getRelease_Date() != null &&  audioBook.getRelease_Date().trim() != ""){
 				where += "Release_Date >= '" + audioBook.getRelease_Date() + "'";			
 				hasCondition = true;
 			}
@@ -944,7 +971,7 @@ public class TranslatorService {
 
 			//check Author_Name
 			//if Author_Name is not an empty string and if its not null
-			if(author.getAuthor_Name() != null && author.getAuthor_Name() != ""){
+			if(author.getAuthor_Name() != null && author.getAuthor_Name().trim() != ""){
 				where += "Author_Name LIKE '%" + author.getAuthor_Name() + "%'";				
 				hasCondition = true;
 			}
@@ -1025,7 +1052,7 @@ public class TranslatorService {
 
 			//check Narrator_Name
 			//if Narrator_Name is not an empty string and if its not null
-			if(narrator.getNarrator_Name() != null && narrator.getNarrator_Name() != ""){
+			if(narrator.getNarrator_Name() != null && narrator.getNarrator_Name().trim() != ""){
 				where += "Narrator_Name LIKE '%" + narrator.getNarrator_Name() + "%'";			
 				hasCondition = true;
 			}
@@ -1171,7 +1198,7 @@ public class TranslatorService {
 				//while loop to move through each row
 				while(mvAttrRS.next()){
 					
-					colContent += mvAttrRS.getString(1) + ";";
+					colContent += mvAttrRS.getString(1) + "; ";
 
 				}
 			}
