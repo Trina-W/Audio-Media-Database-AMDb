@@ -14,9 +14,6 @@ public class AMDbController {
 
     @GetMapping
     public String get(Model model) {
-
-        // Add object to be bound by user provided details
-        //model.addAttribute("input", new InputForm());
         model.addAttribute("song", new Song());
         model.addAttribute("recordLabel", new RecordLabel());
         model.addAttribute("musicArtist", new MusicArtist());
@@ -29,6 +26,9 @@ public class AMDbController {
         model.addAttribute("author", new Author());
         model.addAttribute("narrator", new Narrator());
 
+        // Important: Initialize this attribute on GET requests
+        model.addAttribute("searchPerformed", false);  // Indicate that search has not yet been performed
+
         return "home";
     }
 
@@ -40,6 +40,7 @@ public class AMDbController {
                        @ModelAttribute("audioBook") AudioBook audioBook, @ModelAttribute("author") Author author,
                        @ModelAttribute("narrator") Narrator narrator, Model model) {
         model.addAttribute("selectedCategory", selectedCategory);
+        model.addAttribute("searchPerformed", true);
 
         System.out.println("\n*******************************************************************************************************************");
 
@@ -111,6 +112,13 @@ public class AMDbController {
             System.out.println(hm);
         }
         model.addAttribute("allNResults", allNResults);
+
+        boolean noResults = allSongResults.isEmpty() && allRLResults.isEmpty() && allMAResults.isEmpty()
+                && allMRResults.isEmpty() && allPHResults.isEmpty() && allPCResults.isEmpty()
+                && allPEResults.isEmpty() && allPResults.isEmpty() && allABResults.isEmpty()
+                && allAResults.isEmpty() && allNResults.isEmpty();
+
+        model.addAttribute("noResults", noResults);  // Add this flag to the model
 
         // Return the same view as GET request
         return "home"; // Assuming "home-3" is your main page with the form

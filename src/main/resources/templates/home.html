@@ -366,12 +366,18 @@
             <tr>
                 <th>Artist ID</th>
                 <th>Artist Name</th>
+                <th>Record Label</th>
+                <th>Music Releases</th>
+                <th>Songs</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="artistResult : ${allMAResults}">
                 <td th:text="${artistResult['Artist_ID']}"></td>
                 <td th:text="${artistResult['Artist_Name']}"></td>
+                <td th:text="${artistResult['Record_Label RL']}"></td>
+                <td th:text="${artistResult['Music_Release MR']}"></td>
+                <td th:text="${artistResult['Song S']}"></td>
             </tr>
             </tbody>
         </table>
@@ -385,12 +391,16 @@
             <tr>
                 <th>Record Label ID</th>
                 <th>Record Label Name</th>
+                <th>Music Releases</th>
+                <th>Signed Music Artists</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="recordLabelResult : ${allRLResults}">
                 <td th:text="${recordLabelResult['Label_ID']}"></td>
                 <td th:text="${recordLabelResult['Label_Name']}"></td>
+                <td th:text="${recordLabelResult['Music_Release MR']}"></td>
+                <td th:text="${recordLabelResult['Music_Artist MA']}"></td>
             </tr>
             </tbody>
         </table>
@@ -455,7 +465,8 @@
             <tr>
                 <th>Podcast Host ID</th>
                 <th>Podcast Host Name</th>
-                <th>Podcast Title</th>
+                <th>Podcast</th>
+
             </tr>
             </thead>
             <tbody>
@@ -477,6 +488,7 @@
                 <th>Podcast Episode ID</th>
                 <th>Podcast Episode Title</th>
                 <th>Podcast ID</th>
+                <th>Podcast Name</th>
             </tr>
             </thead>
             <tbody>
@@ -484,6 +496,7 @@
                 <td th:text="${podcastEpisodeResult['Podcast_Episode_ID']}"></td>
                 <td th:text="${podcastEpisodeResult['Podcast_Episode_Title']}"></td>
                 <td th:text="${podcastEpisodeResult['Podcast_ID']}"></td>
+                <td th:text="${podcastEpisodeResult['Podcast_Name']}"></td>
             </tr>
             </tbody>
         </table>
@@ -498,14 +511,22 @@
             <tr>
                 <th>Audiobook ID</th>
                 <th>Audiobook Title</th>
+                <th>Length</th>
                 <th>Release Date</th>
+                <th>Publisher</th>
+                <th>Author</th>
+                <th>Narrator</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="audiobookResult : ${allABResults}">
                 <td th:text="${audiobookResult['Book_ID']}"></td>
                 <td th:text="${audiobookResult['Book_Title']}"></td>
+                <td th:text="${audiobookResult['Length']}"></td>
                 <td th:text="${audiobookResult['Release_Date']}"></td>
+                <td th:text="${audiobookResult['Publisher PR']}"></td>
+                <td th:text="${audiobookResult['Author A']}"></td>
+                <td th:text="${audiobookResult['Narrator N']}"></td>
             </tr>
             </tbody>
         </table>
@@ -519,12 +540,14 @@
             <tr>
                 <th>Author ID</th>
                 <th>Author Name</th>
+                <th>Audiobooks</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="authorResult : ${allAResults}">
                 <td th:text="${authorResult['Author_ID']}"></td>
                 <td th:text="${authorResult['Author_Name']}"></td>
+                <td th:text="${authorResult['Audio_Book AB']}"></td>
             </tr>
             </tbody>
         </table>
@@ -538,12 +561,14 @@
             <tr>
                 <th>Narrator ID</th>
                 <th>Narrator Name</th>
+                <th>Audiobooks</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="narratorResult : ${allNResults}">
                 <td th:text="${narratorResult['Narrator_ID']}"></td>
                 <td th:text="${narratorResult['Narrator_Name']}"></td>
+                <td th:text="${narratorResult['Audio_Book AB']}"></td>
             </tr>
             </tbody>
         </table>
@@ -557,12 +582,14 @@
             <tr>
                 <th>Publisher ID</th>
                 <th>Publisher Name</th>
+                <th>Audiobooks</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="publisherResult : ${allPResults}">
                 <td th:text="${publisherResult['Publisher_ID']}"></td>
                 <td th:text="${publisherResult['Publisher_Name']}"></td>
+                <td th:text="${publisherResult['Audio_Book AB']}"></td>
             </tr>
             </tbody>
         </table>
@@ -576,6 +603,7 @@
 
 <!-- JavaScript for Dropdown Menu, Clearable Input, and Theme Toggle -->
 <script>
+
     document.addEventListener('DOMContentLoaded', function () {
         const selectedCategory = document.getElementById('selectedCategory').value;
         const dropdownButton = document.getElementById('dropdownMenuButton');
@@ -602,6 +630,7 @@
                 }
             }
         }
+
 
         // Attach event listeners to dropdown items
         dropdownItems.forEach(item => {
@@ -672,8 +701,24 @@
             alert('Max must be greater than or equal to Min.');
         }
     }
-
 </script>
+
+<!-- Displays alert if no search results found for the selected category -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        var noResults = [[${noResults}]];
+        var searchPerformed = [[${searchPerformed}]];
+
+        console.log("Search Performed: " + searchPerformed + ", No Results: " + noResults);
+
+        if (noResults && searchPerformed) {
+            alert('No search results found for the selected category.');
+        }
+    };
+    /*]]>*/
+</script>
+
 
 </body>
 

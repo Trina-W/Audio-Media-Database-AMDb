@@ -1,4 +1,3 @@
-
 package amdbProject;
 
 import java.sql.*;
@@ -42,14 +41,14 @@ public class TranslatorService {
 
 			//check song_title
 			//if getSong_Title is not empty
-			if(song.getSong_Title() != null && song.getSong_Title() != ""){
+			if(song.getSong_Title() != null && song.getSong_Title().trim() != ""){
 				where += "Song_Title LIKE '%" + song.getSong_Title() + "%'";
 				hasCondition = true;
 			}
-			
+
 			//check genre
 			//if getGenre is not an empty string and not null
-			if (song.getGenre() != null && song.getGenre() != "") {
+			if (song.getGenre() != null && song.getGenre().trim() != "") {
 				//if where is not empty, we need to append AND at the front
 				if (where != ""){
 					where += " AND ";
@@ -57,7 +56,7 @@ public class TranslatorService {
 				where += "Genre LIKE '%" + song.getGenre() + "%'";
 				hasCondition = true;
 			}
-			
+
 			//check tempo
 			if(song.getMinTempo() > 0){
 				//if where is not empty, we need to append AND at the front
@@ -155,27 +154,27 @@ public class TranslatorService {
 					String id = "" + result.get("Music_Release_ID");
 
 					//use that value in the query
-					PreparedStatement fk = con.prepareStatement("SELECT Release_Title " + 
-												"FROM Music_Release " +
-												" WHERE Release_ID = " + id);
+					PreparedStatement fk = con.prepareStatement("SELECT Release_Title " +
+							"FROM Music_Release " +
+							" WHERE Release_ID = " + id);
 
 					//execute to get the name
 					ResultSet fkRS = fk.executeQuery();
 
 					if (fkRS != null){
-				
+
 						//while loop to move through each row
 						while(fkRS.next()){
-							
+
 							musicReleaseName = fkRS.getString(1);
-		
+
 						}
 					}
-					
+
 					//add the musicReleaseName to the hashmap
 					result.put("Music_Release_Name", musicReleaseName);
 
-				
+
 					//each row also has MV attributes that are listed in other tables
 					//Song only has one MV attribute: Artist (relationship located in Records table)
 					String[] aResult = getMVRS(con, "Artist_Name", "Music_Artist MA", "Records R", "Artist_ID", "Artist_ID", "Song S", "Song_ID", "Song_ID", result.get("Song_ID"));
@@ -215,7 +214,7 @@ public class TranslatorService {
 
 			//check label_name
 			//if label_name is not empty
-			if(recordLabel.getLabel_Name() != null && recordLabel.getLabel_Name() != ""){
+			if(recordLabel.getLabel_Name() != null && recordLabel.getLabel_Name().trim() != ""){
 				where += "Label_Name LIKE '%" + recordLabel.getLabel_Name() + "%'";
 				hasCondition = true;
 			}
@@ -227,7 +226,7 @@ public class TranslatorService {
 
 			//connect to the database
 			con = DatabaseConnection.getDBConnection();
-			
+
 			//store single value attributes for recordlabel
 			ResultSet recordLabelRS = getSVRS("Record_Label", where);
 
@@ -255,7 +254,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Record_Label has two MV attributes: Music_Release (relationship located in Releases table), Artist (relationship located in Signs table)
 					String[] mrResult = getMVRS(con, "Release_Title", "Music_Release MR", "Releases R", "Release_ID", "Release_ID", "Record_Label RL", "Label_ID", "Label_ID", result.get("Label_ID"));
@@ -298,8 +297,8 @@ public class TranslatorService {
 
 			//check Artist_Name
 			//if Artist_Name is not empty
-			if(musicArtist.getArtist_Name() != null && musicArtist.getArtist_Name() != ""){
-				where += "Artist_Name LIKE '%" + musicArtist.getArtist_Name() + "%'";				
+			if(musicArtist.getArtist_Name() != null && musicArtist.getArtist_Name().trim() != ""){
+				where += "Artist_Name LIKE '%" + musicArtist.getArtist_Name() + "%'";
 				hasCondition = true;
 			}
 
@@ -338,7 +337,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Music_Artist has three MV attributes: Record_Label (relationship located in Signs table), Music_Release (relationship located in Creates table), Song (relationship located in Records table)
 					String[] rlResult = getMVRS(con, "Label_Name", "Record_Label RL", "Signs S", "Label_ID", "Label_ID", "Music_Artist MA", "Artist_ID", "Artist_ID", result.get("Artist_ID"));
@@ -363,10 +362,10 @@ public class TranslatorService {
 
 
 	/**
-	* Makes a call to the database to get matching Music Release single value and multivalue attributes
-	* @param musicRelease - musicArtist object that holds user input
-	* @return allMusicReleaseResults - ArrayList<LinkedHashMap<String,String>> that holds all the music release results
-	*/
+	 * Makes a call to the database to get matching Music Release single value and multivalue attributes
+	 * @param musicRelease - musicArtist object that holds user input
+	 * @return allMusicReleaseResults - ArrayList<LinkedHashMap<String,String>> that holds all the music release results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrieveMusicRelease(MusicRelease musicRelease){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -384,8 +383,8 @@ public class TranslatorService {
 
 			//check Title
 			//if Title is not empty
-			if(musicRelease.getRelease_Title() != null && musicRelease.getRelease_Title() != ""){
-				where += "Release_Title LIKE '%" + musicRelease.getRelease_Title() + "%'";			
+			if(musicRelease.getRelease_Title() != null && musicRelease.getRelease_Title().trim() != ""){
+				where += "Release_Title LIKE '%" + musicRelease.getRelease_Title() + "%'";
 				hasCondition = true;
 			}
 
@@ -424,7 +423,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Music_Release has two MV attributes: Record_Label (relationship in Releases table), ARtist (relationship located in Creates table)
 					String[] rlResult = getMVRS(con, "Label_Name", "Record_Label RL", "Releases R", "Label_ID", "Label_ID", "Music_Release MR", "Release_ID", "Release_ID", result.get("Release_ID"));
@@ -448,10 +447,10 @@ public class TranslatorService {
 	// *************************** PODCAST RELATED ENTITIES *********************************
 
 	/**
-	* Makes a call to the database to get matching Podcast Host single value and multivalue attributes
-	* @param podcastHost - podcastHost object that holds user input
-	* @return allPodcastHostResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast host results
-	*/
+	 * Makes a call to the database to get matching Podcast Host single value and multivalue attributes
+	 * @param podcastHost - podcastHost object that holds user input
+	 * @return allPodcastHostResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast host results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrievePodcastHost(PodcastHost podcastHost){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -469,8 +468,8 @@ public class TranslatorService {
 
 			//check Host_Name
 			//if Host_Name is not empty
-			if(podcastHost.getHost_Name() != null && podcastHost.getHost_Name() != ""){
-				where += "Host_Name LIKE '%" + podcastHost.getHost_Name() + "%'";				
+			if(podcastHost.getHost_Name() != null && podcastHost.getHost_Name().trim() != ""){
+				where += "Host_Name LIKE '%" + podcastHost.getHost_Name() + "%'";
 				hasCondition = true;
 			}
 
@@ -509,7 +508,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Podcast_Host has one MV attribute: Podcast (relationship in Hosts Table)
 					String[] pResult = getMVRS(con, "Podcast_Title", "Podcast P", "Hosts H", "Podcast_ID", "Podcast_ID", "Podcast_Host PH", "Host_ID", "Host_ID", result.get("Host_ID"));
@@ -529,10 +528,10 @@ public class TranslatorService {
 	}
 
 	/**
-	* Makes a call to the database to get matching Podcast single value and multivalue attributes
-	* @param podcast - Podcast object that holds user input
-	* @return allPodcastResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast results
-	*/
+	 * Makes a call to the database to get matching Podcast single value and multivalue attributes
+	 * @param podcast - Podcast object that holds user input
+	 * @return allPodcastResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrievePodcast(Podcast podcast){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -550,8 +549,8 @@ public class TranslatorService {
 
 			//check podcast_title
 			//if podcast_title is not empty
-			if(podcast.getPodcast_Title() != null && podcast.getPodcast_Title() != ""){
-				where += "Podcast_Title LIKE '%" + podcast.getPodcast_Title() + "%'";				
+			if(podcast.getPodcast_Title() != null && podcast.getPodcast_Title().trim() != ""){
+				where += "Podcast_Title LIKE '%" + podcast.getPodcast_Title() + "%'";
 				hasCondition = true;
 			}
 
@@ -571,7 +570,7 @@ public class TranslatorService {
 			if(!hasCondition){
 				return allPodcastResults;
 			}
-			
+
 			//connect to the database
 			con = DatabaseConnection.getDBConnection();
 
@@ -602,7 +601,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Podcast has one MV attribute: Podcast_Host (relationship in Hosts Table)
 					String[] phResult = getMVRS(con, "Host_Name", "Podcast_Host PH", "Hosts H", "Host_ID", "Host_ID", "Podcast P", "Podcast_ID", "Podcast_ID", result.get("Podcast_ID"));
@@ -622,10 +621,10 @@ public class TranslatorService {
 	}
 
 	/**
-	* Makes a call to the database to get matching Podcast Episode single value and multivalue attributes
-	* @param podcastEpisode - podcastEpisode object that holds user input
-	* @return allPodcastEpisodeResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast episode results
-	*/
+	 * Makes a call to the database to get matching Podcast Episode single value and multivalue attributes
+	 * @param podcastEpisode - podcastEpisode object that holds user input
+	 * @return allPodcastEpisodeResults - ArrayList<LinkedHashMap<String,String>> that holds all the podcast episode results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrievePodcastEpisode(PodcastEpisode podcastEpisode){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -643,8 +642,8 @@ public class TranslatorService {
 
 			//check podcast_episode_title
 			//if podcast_episode_title is not empty
-			if(podcastEpisode.getPodcast_Episode_Title() != null && podcastEpisode.getPodcast_Episode_Title() != ""){
-				where += "Podcast_Episode_Title LIKE '%" + podcastEpisode.getPodcast_Episode_Title() + "%'";				
+			if(podcastEpisode.getPodcast_Episode_Title() != null && podcastEpisode.getPodcast_Episode_Title().trim() != ""){
+				where += "Podcast_Episode_Title LIKE '%" + podcastEpisode.getPodcast_Episode_Title() + "%'";
 				hasCondition = true;
 			}
 
@@ -683,7 +682,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 
 					//Podcast_Episode has a FK with Podcast_ID
 
@@ -692,23 +691,23 @@ public class TranslatorService {
 					String id = "" + result.get("Podcast_ID");
 
 					//use that value in the query
-					PreparedStatement fk = con.prepareStatement("SELECT Podcast_Title " + 
-												"FROM Podcast " +
-												" WHERE Podcast_ID = " + id);
+					PreparedStatement fk = con.prepareStatement("SELECT Podcast_Title " +
+							"FROM Podcast " +
+							" WHERE Podcast_ID = " + id);
 
 					//execute to get the name
 					ResultSet fkRS = fk.executeQuery();
 
 					if (fkRS != null){
-				
+
 						//while loop to move through each row
 						while(fkRS.next()){
-							
+
 							podcastName = fkRS.getString(1);
-		
+
 						}
 					}
-					
+
 					//add the podcastName to the hashmap
 					result.put("Podcast_Name", podcastName);
 
@@ -729,10 +728,10 @@ public class TranslatorService {
 	// ****************** AUDIOBOOK RELATED ENTITIES **********************
 
 	/**
-	* Makes a call to the database to get matching Publisher single value and multivalue attributes
-	* @param publisher - publisher object that holds user input
-	* @return allPublisherResults - ArrayList<LinkedHashMap<String,String>> that holds all the publisher results
-	*/
+	 * Makes a call to the database to get matching Publisher single value and multivalue attributes
+	 * @param publisher - publisher object that holds user input
+	 * @return allPublisherResults - ArrayList<LinkedHashMap<String,String>> that holds all the publisher results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrievePublisher(Publisher publisher){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -750,8 +749,8 @@ public class TranslatorService {
 
 			//check Publisher_Name
 			//if Publisher_Name is not empty
-			if(publisher.getPublisher_Name() != null && publisher.getPublisher_Name() != ""){
-				where += "Publisher_Name LIKE '%" + publisher.getPublisher_Name() + "%'";				
+			if(publisher.getPublisher_Name() != null && publisher.getPublisher_Name().trim() != ""){
+				where += "Publisher_Name LIKE '%" + publisher.getPublisher_Name() + "%'";
 				hasCondition = true;
 			}
 
@@ -790,7 +789,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Publisher has one MV: Book (relationship located in Publishes table)
 					String[] bResult = getMVRS(con, "Book_Title", "Audio_Book AB", "Publishes P", "Book_ID", "Book_ID", "Publisher PR", "Publisher_ID", "Publisher_ID", result.get("Publisher_ID"));
@@ -810,10 +809,10 @@ public class TranslatorService {
 	}
 
 	/**
-	* Makes a call to the database to get matching Audio Book single value and multivalue attributes
-	* @param audioBook - audioBook object that holds user input
-	* @return allAudioBookResults - ArrayList<LinkedHashMap<String,String>> that holds all the audioBook results
-	*/
+	 * Makes a call to the database to get matching Audio Book single value and multivalue attributes
+	 * @param audioBook - audioBook object that holds user input
+	 * @return allAudioBookResults - ArrayList<LinkedHashMap<String,String>> that holds all the audioBook results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrieveAudioBook(AudioBook audioBook){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -831,9 +830,9 @@ public class TranslatorService {
 
 			//check Title
 			//if Title is not an empty string and if its not null
-			if(audioBook.getBook_Title() != null &&  audioBook.getBook_Title() != ""){
-				where += "Book_Title LIKE '%" + audioBook.getBook_Title() + "%'";		
-				System.out.println("audiobook title: " + audioBook.getBook_Title());	
+			if(audioBook.getBook_Title() != null &&  audioBook.getBook_Title().trim() != ""){
+				where += "Book_Title LIKE '%" + audioBook.getBook_Title() + "%'";
+				System.out.println("audiobook title: " + audioBook.getBook_Title());
 				hasCondition = true;
 			}
 
@@ -859,8 +858,8 @@ public class TranslatorService {
 			//check releasedate
 			//if Release_Date is not an empty string and if its not null
 			//checks if the book was released after or equal to the given date (given as 'YYYY-MM-DD')
-			if(audioBook.getRelease_Date() != null &&  audioBook.getRelease_Date() != ""){
-				where += "Release_Date >= '" + audioBook.getRelease_Date() + "'";			
+			if(audioBook.getRelease_Date() != null &&  audioBook.getRelease_Date().trim() != ""){
+				where += "Release_Date >= '" + audioBook.getRelease_Date() + "'";
 				hasCondition = true;
 			}
 
@@ -899,7 +898,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Audio_Book has 3 MV attributes: Publisher (relationship located in Publishes), Author (relationsihp located in Writes), Narrator (relationship located in Narrates)
 					String[] pResult = getMVRS(con, "Publisher_Name", "Publisher PR", "Publishes P", "Publisher_ID", "Publisher_ID", "Audio_Book AB", "Book_ID", "Book_ID", result.get("Book_ID"));
@@ -923,10 +922,10 @@ public class TranslatorService {
 	}
 
 	/**
-	* Makes a call to the database to get matching Author single value and multivalue attributes
-	* @param author - author object that holds user input
-	* @return allAuthorResults - ArrayList<LinkedHashMap<String,String>> that holds all the author results
-	*/
+	 * Makes a call to the database to get matching Author single value and multivalue attributes
+	 * @param author - author object that holds user input
+	 * @return allAuthorResults - ArrayList<LinkedHashMap<String,String>> that holds all the author results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrieveAuthor(Author author){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -944,8 +943,8 @@ public class TranslatorService {
 
 			//check Author_Name
 			//if Author_Name is not an empty string and if its not null
-			if(author.getAuthor_Name() != null && author.getAuthor_Name() != ""){
-				where += "Author_Name LIKE '%" + author.getAuthor_Name() + "%'";				
+			if(author.getAuthor_Name() != null && author.getAuthor_Name().trim() != ""){
+				where += "Author_Name LIKE '%" + author.getAuthor_Name() + "%'";
 				hasCondition = true;
 			}
 
@@ -984,7 +983,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//Author has 1 MV attribute: Audio_Book (relationship located in Writes table)
 					String[] abResult = getMVRS(con, "Book_Title", "Audio_Book AB", "Writes W", "Book_ID", "Book_ID", "Author A", "Author_ID", "Author_ID", result.get("Author_ID"));
@@ -1004,10 +1003,10 @@ public class TranslatorService {
 	}
 
 	/**
-	* Makes a call to the database to get matching Narrator single value and multivalue attributes
-	* @param narrator - narrator object that holds user input
-	* @return allNarratorResults - ArrayList<LinkedHashMap<String,String>> that holds all the narrator results
-	*/
+	 * Makes a call to the database to get matching Narrator single value and multivalue attributes
+	 * @param narrator - narrator object that holds user input
+	 * @return allNarratorResults - ArrayList<LinkedHashMap<String,String>> that holds all the narrator results
+	 */
 	public ArrayList<LinkedHashMap<String,String>> retrieveNarrator(Narrator narrator){
 
 		//var for returned Arraylist holding all the LinkedHashMaps
@@ -1025,8 +1024,8 @@ public class TranslatorService {
 
 			//check Narrator_Name
 			//if Narrator_Name is not an empty string and if its not null
-			if(narrator.getNarrator_Name() != null && narrator.getNarrator_Name() != ""){
-				where += "Narrator_Name LIKE '%" + narrator.getNarrator_Name() + "%'";			
+			if(narrator.getNarrator_Name() != null && narrator.getNarrator_Name().trim() != ""){
+				where += "Narrator_Name LIKE '%" + narrator.getNarrator_Name() + "%'";
 				hasCondition = true;
 			}
 
@@ -1065,7 +1064,7 @@ public class TranslatorService {
 						//each col name and val are stored as a pair in the result LinkedHashMap
 						result.put(svAttrMD.getColumnName(i), colContent);
 					}
-					
+
 					//each row also has MV attributes that are listed in other tables
 					//NArrator has 1 MV attribute: Audio_Book (relationship located in Narrates table)
 					String[] abResult = getMVRS(con, "Book_Title", "Audio_Book AB", "Narrates NS", "Book_ID", "Book_ID", "Narrator N", "Narrator_ID", "Narrator_ID", result.get("Narrator_ID"));
@@ -1089,14 +1088,14 @@ public class TranslatorService {
 	 * method to get the single values attributes from table
 	 * @param from - table to get attributes from
 	 * @param where - conditions to filter table
-	 * @return svAttrRS - ResultSet 
+	 * @return svAttrRS - ResultSet
 	 */
 	public ResultSet getSVRS(String from, String where){
 		ResultSet svAttrRS = null;
 		try{
-			getSVAttrs = con.prepareStatement("SELECT * " + 
-												"FROM " + from +
-												" WHERE " + where);
+			getSVAttrs = con.prepareStatement("SELECT * " +
+					"FROM " + from +
+					" WHERE " + where);
 
 			//execute the select statement and store resultSet into singleAttrsResult
 			svAttrRS = getSVAttrs.executeQuery();
@@ -1106,25 +1105,25 @@ public class TranslatorService {
 			System.out.println("SQLException: " + e.getMessage());
 		}
 		return svAttrRS;
-		
+
 	}
 
 	/**
-	* Makes a call to the database to get the multivalued attributes and concatenate them to a string
-	* @param con - database connection
-	* @param mvAttrCol - name of the column that has the mv attribute
-	* @param mvAttrTable - name of the table that hold the name of the mv attribute you want to get
-	* @param relationship - name of the table that holds the relationship
-	* @param id1 - mvAttrTable id
-	* @param id2 - relationship table id that matches mvAttrTable's id
-	* @param oriTable - table of the entity that's making the call
-	* @param id3 - oriTable id
-	* @param id4 - relationship table id that matches oriTable's id
-	* @param idVal - 
-	* @return result - String array of length 2 that contains the key and mv attributes concatenated to a string
-	*/
+	 * Makes a call to the database to get the multivalued attributes and concatenate them to a string
+	 * @param con - database connection
+	 * @param mvAttrCol - name of the column that has the mv attribute
+	 * @param mvAttrTable - name of the table that hold the name of the mv attribute you want to get
+	 * @param relationship - name of the table that holds the relationship
+	 * @param id1 - mvAttrTable id
+	 * @param id2 - relationship table id that matches mvAttrTable's id
+	 * @param oriTable - table of the entity that's making the call
+	 * @param id3 - oriTable id
+	 * @param id4 - relationship table id that matches oriTable's id
+	 * @param idVal -
+	 * @return result - String array of length 2 that contains the key and mv attributes concatenated to a string
+	 */
 	public String[] getMVRS(Connection con, String mvAttrCol, String mvAttrTable, String relationship, String id1, String id2, String oriTable, String id3, String id4, String idVal){
-		
+
 		//result set to hold the mv results
 		ResultSet mvAttrRS = null;
 
@@ -1139,7 +1138,7 @@ public class TranslatorService {
 
 		//in case no matches, set result[1] to empty string
 		result[1] = colContent;
-		
+
 
 		//make the statement and execute it
 		try{
@@ -1152,13 +1151,13 @@ public class TranslatorService {
 
 			//set up the preparedstatement
 			getMVAttrs = con.prepareStatement("SELECT " + mvAttrCol + " " +
-											  "FROM " + mvAttrTable + " " +
-											  "JOIN " + relationship + " " +
-												"ON " + fullID1 + " = " + fullID2 + " " +
-											  "JOIN " + oriTable + " " +
-												"ON " + fullID3 + " = " + fullID4 + " " +
-											  "WHERE " + fullID3 + " = ?");
-			
+					"FROM " + mvAttrTable + " " +
+					"JOIN " + relationship + " " +
+					"ON " + fullID1 + " = " + fullID2 + " " +
+					"JOIN " + oriTable + " " +
+					"ON " + fullID3 + " = " + fullID4 + " " +
+					"WHERE " + fullID3 + " = ?");
+
 			//pass in idval
 			getMVAttrs.setString(1, idVal);
 
@@ -1167,11 +1166,11 @@ public class TranslatorService {
 
 			//process result set contents
 			if (mvAttrRS != null){
-				
+
 				//while loop to move through each row
 				while(mvAttrRS.next()){
-					
-					colContent += mvAttrRS.getString(1);
+
+					colContent += mvAttrRS.getString(1) + ";";
 
 				}
 			}
@@ -1184,8 +1183,8 @@ public class TranslatorService {
 			//probably move this to some error log of some kind
 			System.out.println("SQLException: " + e.getMessage());
 		}
-		
+
 		return result;
-		
+
 	}
 }
