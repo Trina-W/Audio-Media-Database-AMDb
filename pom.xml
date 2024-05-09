@@ -8,11 +8,11 @@
 		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>amdbProject</groupId>
-	<artifactId>amdbProject</artifactId>
+	<groupId>amdbProgram</groupId>
+	<artifactId>amdbProgram</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>amdbProject</name>
-	<description>amdbProject</description>
+	<name>amdbProgram</name>
+	<description>amdbProgram</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
