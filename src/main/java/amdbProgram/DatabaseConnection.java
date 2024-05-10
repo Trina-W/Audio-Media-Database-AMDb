@@ -19,7 +19,7 @@ public class DatabaseConnection {
             //String dbUser = System.getenv("DB_USER");
             //String dbPassword = System.getenv("DB_PASSWORD");
 
-            String dbUrl = "jdbc:mysql://localhost:3307/AMDb";
+            String dbUrl = "jdbc:mysql://localhost:3306/AMDb";
             String dbUser = "user";
             String dbPassword = "password";
 
