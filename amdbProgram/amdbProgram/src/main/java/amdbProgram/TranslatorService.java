@@ -887,6 +887,10 @@ public class TranslatorService {
 			//if Release_Date is not an empty string and if its not null
 			//checks if the book was released after or equal to the given date (given as 'YYYY-MM-DD')
 			if(audioBook.getRelease_Date() != null &&  audioBook.getRelease_Date().trim() != ""){
+				//if where is not empty, we need to append AND at the front
+				if (where != ""){
+					where += " AND ";
+				}
 				where += "Release_Date >= '" + audioBook.getRelease_Date() + "'";			
 				hasCondition = true;
 			}
