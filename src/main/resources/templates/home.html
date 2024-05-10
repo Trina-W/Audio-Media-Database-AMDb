@@ -331,7 +331,7 @@
                 <td th:text="${songResult['Genre']}"></td>
                 <td th:text="${songResult['Tempo']}"></td>
                 <td th:text="${songResult['Length']}"></td>
-                <td th:text="${songResult['Explicit']}"></td>
+                <td th:text="${songResult['Explicit'] ? 'True' : 'False'}"></td>
                 <td th:text="${songResult['Music_Release_ID']}"></td>
                 <td th:text="${songResult['Music_Release_Name']}"></td>
                 <td th:text="${songResult['Music_Artist MA']}"></td>
@@ -431,7 +431,7 @@
                 <td th:text="${podcastResult['Podcast_ID']}"></td>
                 <td th:text="${podcastResult['Podcast_Title']}"></td>
                 <td th:text="${podcastResult['Url']}"></td>
-                <td th:text="${podcastResult['Explicit']}"></td>
+                <td th:text="${podcastResult['Explicit'] ? 'True' : 'False'}"></td>
                 <td th:text="${podcastResult['Description']}"></td>
                 <td th:text="${podcastResult['Podcast_Host PH']}"></td>
             </tr>
