@@ -1,6 +1,8 @@
 # Set Up Instructions:
 
-1. Download our zip file with the repo https://github.com/Trina-W/CS157A_AMDb.git
+### Required software: VSCode, MySQL Workbench 
+
+1. Download our zip file from the repo https://github.com/Trina-W/CS157A_AMDb.git
    
 <img width="763" alt="Screenshot 2024-05-09 at 7 14 57 PM" src="https://github.com/Trina-W/CS157A_AMDb/assets/118573860/6d5d9184-92da-4fec-a13d-fea008129a38">
 
@@ -8,7 +10,7 @@
    
 <img width="1372" alt="Screenshot 2024-05-09 at 8 30 24 PM" src="https://github.com/Trina-W/CS157A_AMDb/assets/118573860/3453e934-cda4-439c-8ed0-b3a60cb424ee">
 
-3. Open MySQLWorkbench and run the files from the folder “sql-files” : create-AMDb.sql and then afterwards insert-AMDb.sql
+3. Open MySQLWorkbench and run the files from the folder “sql-files” create-AMDb.sql and then afterwards insert-AMDb.sql
    
 <img width="1213" alt="Screenshot 2024-05-09 at 7 36 03 PM" src="https://github.com/Trina-W/CS157A_AMDb/assets/118573860/78179e02-f47e-482f-bf13-9a939ba60361">
 <img width="1217" alt="Screenshot 2024-05-09 at 7 35 53 PM" src="https://github.com/Trina-W/CS157A_AMDb/assets/118573860/82cff4a4-2901-428f-9563-f2f6dd327273">
@@ -64,8 +66,7 @@ VS code stop button:
 - Paul: 
   - Created home.html
   - The main page of the web application written in HTML, CSS, JavaScript, and Thymeleaf.
-  - Dynamic and intuitive user interface that enables detailed searches across various audio media types including music, podcasts, audiobooks and their associated entities: song, music artist, record label, music release; podcast,    
-   podcast episode, podcast host; audiobook, author, narrator, publisher.
+  - Dynamic and intuitive user interface that enables detailed searches across various audio media types including music, podcasts, audiobooks and their associated entities: song, music artist, record label, music release; podcast, podcast episode, podcast host; audiobook, author, narrator, publisher.
 
 ### SQL Statements
 - Katrina: 
