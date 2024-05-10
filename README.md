@@ -85,7 +85,8 @@ VS code stop button:
 ### Documentation
 The entire group collaborated to create the ER diagram, schema, presentation, and Final Report
 link to our google drive folder used for planning
-https://drive.google.com/drive/folders/1HvpIQGjcDXsjF_fV77XCE3_oRLjohvQY?usp=sharing, https://drive.google.com/drive/folders/1t44cx5pvoKnTQhJmhiXQzjFMxsfXuBru?usp=sharing 
+   - Final report documentation: https://drive.google.com/drive/folders/1HvpIQGjcDXsjF_fV77XCE3_oRLjohvQY?usp=sharing
+   - Planning folder: https://drive.google.com/drive/folders/1t44cx5pvoKnTQhJmhiXQzjFMxsfXuBru?usp=sharing 
 
 # Meeting Minutes:
 
