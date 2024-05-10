@@ -1,4 +1,4 @@
-package amdbProject;
+package amdbProgram;
 
 import java.util.*;
 

@@ -50,24 +50,6 @@
         .hidden {
             display: none;
         }
-
-        /*#song-options .container,*/
-        /*#music-artist-options .container,*/
-        /*#record-label-options .container,*/
-        /*#music-release-options .container,*/
-        /*#podcast-options .container,*/
-        /*#podcast-episode-options .container,*/
-        /*#podcast-host-options .container,*/
-        /*#audiobook-options .container,*/
-        /*#audiobook-author-options .container,*/
-        /*#audiobook-narrator-options .container,*/
-        /*#audiobook-publisher-options .container {*/
-        /*	display: grid;*/
-        /*	grid-template-columns: repeat(4, 1fr);*/
-        /*	!* Creates 4 columns of equal width *!*/
-        /*	grid-gap: 10px;*/
-        /*	!* Sets the gap between grid items *!*/
-        /*}*/
     </style>
 </head>
 
@@ -713,7 +695,7 @@
         console.log("Search Performed: " + searchPerformed + ", No Results: " + noResults);
 
         if (noResults && searchPerformed) {
-            alert('No search results found for the selected category.');
+            alert('No search results found for the selected category. Please adjust search criteria and try again.');
         }
     };
     /*]]>*/
