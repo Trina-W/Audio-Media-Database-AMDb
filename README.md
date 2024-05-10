@@ -42,45 +42,45 @@ VS code stop button:
 
 ### User Input/Services 
 - Averi:
-   Created TranslatorService.java
-   Class that uses user input to create SQL statements to retrieve data from the database
-   Processes the ResultSets and stores it in LinkedHashMaps / ArrayLists to be used in the HTML page
-   Created classes in ModelAttributes Package, which store the user input for use in the TranslatorService and AMDbController classes
-   Song.java, RecordLabel.java, MusicArtist.java, MusicRelease.java, PodcastHost.java, Podcast.java, PodcastEpisode.java, AudioBook.java, Publisher.java, Author.java, and Narrator.java
+  - Created TranslatorService.java
+  - Class that uses user input to create SQL statements to retrieve data from the database
+  - Processes the ResultSets and stores it in LinkedHashMaps / ArrayLists to be used in the HTML page
+  - Created classes in ModelAttributes Package, which store the user input for use in the TranslatorService and AMDbController classes
+    - Song.java, RecordLabel.java, MusicArtist.java, MusicRelease.java, PodcastHost.java, Podcast.java, PodcastEpisode.java, AudioBook.java, Publisher.java, Author.java, and Narrator.java
 - Paul:
-   Created DatabaseConnection.java
-   A utility class that provides a method to create and establish the database connection to allow database queries to be executed.
+  - Created DatabaseConnection.java
+  - A utility class that provides a method to create and establish the database connection to allow database queries to be executed.
 
 ### Controller
 - Jonathan: 
-   Started AMDBController.java (adopted Averi’s finished version)
-   Initially created endpoint connections but implemented an improved version by Averi
-   Class that serves as the web controller that handles various types of media entities.
-   All request mappings for this controller will be prefixed with `/amdb`
-   GET method initializes the model with multiple media-related objects and returns the `home` view
-   POST method processes the submitted data from the forms bound to the desired model objects
+  - Started AMDBController.java (adopted Averi’s finished version)
+  - Initially created endpoint connections but implemented an improved version by Averi
+  - Class that serves as the web controller that handles various types of media entities.
+  - All request mappings for this controller will be prefixed with `/amdb`
+  - GET method initializes the model with multiple media-related objects and returns the `home` view
+  - POST method processes the submitted data from the forms bound to the desired model objects
 
 ### Front-End 
 - Paul: 
-   Created home.html
-   The main page of the web application written in HTML, CSS, JavaScript, and Thymeleaf.
-   Dynamic and intuitive user interface that enables detailed searches across various audio media types including music, podcasts, audiobooks and their associated entities: song, music artist, record label, music release; podcast,    
+  - Created home.html
+  - The main page of the web application written in HTML, CSS, JavaScript, and Thymeleaf.
+  - Dynamic and intuitive user interface that enables detailed searches across various audio media types including music, podcasts, audiobooks and their associated entities: song, music artist, record label, music release; podcast,    
    podcast episode, podcast host; audiobook, author, narrator, publisher.
 
 ### SQL Statements
 - Katrina: 
-   Cleaned/formatted data from CSV files using Python scripts and Open Refine. 
-   Created dummy data for missing information 
-   Converted the CSV files to MySQL insert statements 
-   Populated the SQL tables 
+  - Cleaned/formatted data from CSV files using Python scripts and Open Refine. 
+  - Created dummy data for missing information 
+  - Converted the CSV files to MySQL insert statements 
+  - Populated the SQL tables 
 
 - Averi: 
-   Reformatted SQL INSERT statements
-   Created single file to run all inserts
+  - Reformatted SQL INSERT statements
+  - Created single file to run all inserts
 
 - Paul: 
-   Reformatted SQL INSERT statements 
-   Created single file to run all inserts
+  - Reformatted SQL INSERT statements 
+  - Created single file to run all inserts
 
 ### Documentation
 The entire group collaborated to create the ER diagram, schema, presentation, and Final Report
