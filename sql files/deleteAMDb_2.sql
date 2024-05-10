@@ -1,3 +1,0 @@
-DROP USER IF EXISTS 'user'@'%';
-
-DROP DATABASE AMDb;
