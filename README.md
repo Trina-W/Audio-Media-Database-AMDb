@@ -85,7 +85,6 @@ VS code stop button:
 
 ### Documentation
 The entire group collaborated to create the ER diagram, schema, presentation, and Final Report
-link to our google drive folder used for planning
 
 # Meeting Minutes:
 
